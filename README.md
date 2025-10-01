@@ -2,6 +2,8 @@
 
 This is a jawm demo module.
 
+Checkout `demo.py` and `notebook.ipynb` for examples on how to develop data analysis workflows with jawm.
+
 For more information on jawm please visit [jawm's repo](https://github.com/mpg-age-bioinformatics/jawm/tree/main).
 
 Example usage:
