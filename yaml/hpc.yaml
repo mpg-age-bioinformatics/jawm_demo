@@ -1,3 +1,4 @@
+# a slurm and apptainer template for our hpc named cluster
 - scope: process
   name: "demo_p1"
   manager: "slurm"
