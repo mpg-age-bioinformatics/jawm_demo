@@ -26,4 +26,6 @@ Additionaly, these hashes are stored under `./logs/jwam_hashes/<module_name>_use
 `./logs/jwam_hashes/<module_name>.hash` for the latest hash.
 
 If you are running multiple variations of the same module you might want to change the path of the logs directory with 
-`jawm -l <path_to_new_logs_directory>`.
+```
+jawm -l <path_to_new_logs_directory>
+```
