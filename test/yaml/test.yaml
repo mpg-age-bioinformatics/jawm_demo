@@ -1,0 +1,46 @@
+- scope: process
+  name: "demo_p1"
+  container: "ubuntu:24.04"
+  environment: "docker"
+  automated_mount: False
+  docker_run_as_user: True
+  environment_docker:
+      "-v": ["/nexus:/nexus"]
+  parallel: False
+  var:
+    extra_args: ""
+    my_demo_argument: "This is just a demo."
+    mk.output: "./test/test-output"
+
+- scope: process
+  name: "demo_p2"
+  container: "python:3.13-slim"
+  environment: "docker"
+  automated_mount: False
+  docker_run_as_user: True
+  environment_docker:
+      "-v": ["/nexus:/nexus"]
+  parallel: False
+  var:
+    map.file: "./test/data.txt"
+    mk.output: "./test/test-output"
+
+- scope: process
+  name: "demo_p3"
+  container: "r-base:4.5.1"
+  environment: "docker"
+  automated_mount: False
+  docker_run_as_user: True
+  environment_docker:
+      "-v": ["/nexus:/nexus"]
+  parallel: False
+  var:
+    mk.output: "./test/test-output"
+
+# - scope: global
+#   var:
+#     mk.output: "./test/test-output"
+ 
+- scope: hash
+  include: ./test/test-output/demo.txt
+  overwrite: true # overwrite any existing hash already present on the logs folder
