@@ -29,3 +29,9 @@ If you are running multiple variations of the same module you might want to chan
 ```
 jawm -l <path_to_new_logs_directory>
 ```
+
+The file `data.txt` lists all the files required for your tests in the form:
+```
+<md5sums>  <file_name>  <url_for_file_download> 
+```
+This will be downloaded when running `jawm-dev test`.
