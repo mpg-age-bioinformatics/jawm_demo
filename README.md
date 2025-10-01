@@ -14,3 +14,9 @@ jawm demo.py demo -p ./yaml/docker.yaml
 # slurm & apptainer with multiple yaml files
 jawm demo.py demo -p ./yaml/vars.yaml ./yaml/hpc.yaml
 ```
+
+Running tests:
+```
+jawm-dev test
+```
+More information on running and developing tests can be found in `./test/README.md`.
