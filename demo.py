@@ -1,11 +1,4 @@
 import jawm
-from jawm.utils import load_modules
-
-# load modules from local folders
-load_modules("modules")
-
-# load modules from online git repos
-load_modules("jawm_template")
 
 # it can be used in the form
 # load_modules(["modules","jawm_template@<tag/commit_hash>"])
@@ -83,6 +76,13 @@ write( "Demo completed", file = "{{mk.output}}/demo.txt", append = TRUE)
 if __name__ == "__main__":
     import sys
     from jawm.utils import workflow
+    from jawm.utils import load_modules
+
+    # load modules from local folders
+    load_modules("modules")
+
+    # load modules from online git repos
+    load_modules("jawm_template")
 
     workflows, var, args, unknown_args= jawm.utils.parse_arguments(["main","demo","test"],)
 

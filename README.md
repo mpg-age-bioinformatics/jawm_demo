@@ -8,6 +8,9 @@ For more information on jawm please visit [jawm's repo](https://github.com/mpg-a
 
 Example usage:
 ```
+# download test data
+jawm-test -r download
+
 # docker
 jawm demo.py demo -p ./yaml/docker.yaml
 
@@ -15,8 +18,8 @@ jawm demo.py demo -p ./yaml/docker.yaml
 jawm demo.py demo -p ./yaml/vars.yaml ./yaml/hpc.yaml
 ```
 
-Running tests:
+Testing this module on your system's python and jawm installation:
 ```
-jawm-dev test
+jawm-test --python_versions system --jawm_versions local
 ```
 More information on running and developing tests can be found in `./test/README.md`.

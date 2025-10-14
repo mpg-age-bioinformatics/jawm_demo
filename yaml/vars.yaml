@@ -3,15 +3,12 @@
   var:
     extra_args: ""
     my_demo_argument: "This is just a demo."
-    mk.output: "./test/test-output"
 
 - scope: process
   name: "demo_p2"
   var:
     map.file: "./test/data.txt"
-    mk.output: "./test/test-output"
 
-- scope: process
-  name: "demo_p3"
+- scope: global
   var:
     mk.output: "./test/test-output"
