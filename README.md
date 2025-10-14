@@ -4,7 +4,11 @@ This is a jawm demo module.
 
 Checkout `demo.py` and `notebook.ipynb` for examples on how to develop data analysis workflows with jawm.
 
-For more information on jawm please visit [jawm's repo](https://github.com/mpg-age-bioinformatics/jawm/tree/main).
+Installing jawm:
+```
+pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git --user
+```
+For more information on jawm please visit jawm's repo on [GitHub.com](https://github.com/mpg-age-bioinformatics/jawm/tree/main).
 
 Example usage:
 ```

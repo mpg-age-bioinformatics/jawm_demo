@@ -34,4 +34,4 @@ The file `data.txt` lists all the files required for your tests in the form:
 ```
 <md5sums>  <file_name>  <url_for_file_download> 
 ```
-These will be downloaded when running `jawm-dev test`.
+These will be downloaded when running `jawm-test`.
