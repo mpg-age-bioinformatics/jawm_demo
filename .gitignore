@@ -5,3 +5,6 @@ test-output
 .ipynb_checkpoints
 __init__.py
 modules/jawm_template
+# do this if you want to upload modules direclty
+# be aware you will loose git version information
+#modules/*/.git
