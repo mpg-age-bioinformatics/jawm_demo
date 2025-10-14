@@ -6,7 +6,7 @@ Checkout `demo.py` and `notebook.ipynb` for examples on how to develop data anal
 
 Installing jawm:
 ```
-pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git --user
+pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git
 ```
 For more information on jawm please visit jawm's repo on [GitHub.com](https://github.com/mpg-age-bioinformatics/jawm/tree/main).
 
