@@ -1,4 +1,14 @@
 import jawm
+from jawm.utils import load_modules
+
+# load modules from local folders
+load_modules("modules")
+
+# load modules from online git repos
+load_modules("jawm_template")
+
+# it can be used in the form
+# load_modules(["modules","jawm_template@<tag/commit_hash>"])
 
 demo_p1=jawm.Process( 
     name="demo_p1",
@@ -69,11 +79,12 @@ write( "Demo completed", file = "{{mk.output}}/demo.txt", append = TRUE)
 )
 
 
+
 if __name__ == "__main__":
     import sys
     from jawm.utils import workflow
 
-    workflows, args, unknown_args = jawm.utils.parse_arguments(["main","demo","test"],)
+    workflows, var, args, unknown_args= jawm.utils.parse_arguments(["main","demo","test"],)
 
     # usage: 
 
@@ -93,6 +104,13 @@ if __name__ == "__main__":
         print(demo_p1.get_output())
         print(demo_p2.get_output())
 
+        demo_module.demo_module_p1.execute()
+        template.template_p2.execute()
+
+        jawm.Process.wait()
+        print(demo_module.demo_module_p1.get_output())
+        print(template.template_p2.get_output())
+
     if workflow( "test", workflows ) :
 
         # for the test workflow we also do something more (just for demo)
@@ -101,4 +119,4 @@ if __name__ == "__main__":
         print("Test completed.")
 
 
-sys.exit(0)
+    sys.exit(0)

@@ -3,3 +3,5 @@ logs
 test-input
 test-output
 .ipynb_checkpoints
+__init__.py
+modules/jawm_template
