@@ -46,7 +46,7 @@ jobs:
         run: |
           echo "$HOME/.local/bin" >> $GITHUB_PATH
           python -m pip install --upgrade pip
-          pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git --user
+          pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git
 
       - name: Run jawm
         run: |
