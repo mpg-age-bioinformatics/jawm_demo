@@ -1,4 +1,4 @@
-name: Simulate HPC (Slurm + Apptainer)
+name: HPC
 
 on:
   workflow_dispatch:
