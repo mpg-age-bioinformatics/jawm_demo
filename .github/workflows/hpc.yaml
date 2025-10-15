@@ -108,6 +108,15 @@ jobs:
 
           sudo apptainer build mycontainer.sif container.def
 
+      - name: Start local Slurm daemons
+        run: |
+          sudo mkdir -p /var/run/slurm /var/spool/slurmd /var/spool/slurmctld
+          sudo touch /var/run/slurm/slurmctld.pid
+          sudo slurmd -D -c &
+          sudo slurmctld -D -c &
+          sleep 5
+          scontrol ping 
+
       - name: Submit fake Slurm job that uses Apptainer
         run: |
           echo '#!/bin/bash' > job.sh
@@ -117,7 +126,7 @@ jobs:
           chmod +x job.sh
 
           echo "Submitting job to fake Slurm queue..."
-          sbatch --job-name=test-job --wrap="./job.sh" || bash ./job.sh
+          sbatch --job-name=test-job --wrap="./job.sh" 
 
       - name: Run jawm
         run: |
