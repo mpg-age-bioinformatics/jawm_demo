@@ -1,0 +1,33 @@
+- scope: process
+  name: "demo_p1"
+  container: "ubuntu:24.04"
+  manager: "slurm"
+  manager_slurm: { "-p":"debug", "--mem":"1GB", "-t":"1:00:00", "-c":"1" }
+  environment: "apptainer"
+  var:
+    extra_args: ""
+    my_demo_argument: "This is just a demo."
+
+- scope: process
+  name: "demo_p2"
+  container: "python:3.13-slim"
+  manager: "slurm"
+  manager_slurm: { "-p":"debug", "--mem":"1GB", "-t":"1:00:00", "-c":"1" }
+  environment: "apptainer"
+  var:
+    map.file: "./test/data.txt"
+
+- scope: process
+  name: "demo_p3"
+  container: "r-base:4.5.1"
+  manager: "slurm"
+  manager_slurm: { "-p":"debug", "--mem":"1GB", "-t":"1:00:00", "-c":"1" }
+  environment: "apptainer"
+
+- scope: global
+  var:
+    mk.output: "./test/test-output"
+ 
+- scope: hash
+  include: ./test/test-output/demo.txt
+  overwrite: true # overwrite any existing hash already present on the logs folder

@@ -22,7 +22,7 @@ jawm demo.py demo -p ./yaml/docker.yaml
 jawm demo.py demo -p ./yaml/vars.yaml ./yaml/hpc.yaml
 ```
 
-Testing this module on your system's python and jawm installation:
+Testing this module on your system's python, jawm, and docker installations:
 ```
 jawm-test --python_versions system --jawm_versions local
 ```

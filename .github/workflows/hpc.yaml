@@ -1,0 +1,110 @@
+name: Simulate HPC (Slurm + Apptainer)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"  # nightly run
+
+jobs:
+  hpc-sim:
+    name: Simulated HPC Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ">=3.10"
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.JAWM_BIOINFORMATICS_KEY }}
+
+      - name: Add GitHub to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Install jawm
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          python -m pip install --upgrade pip
+          pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y slurm-wlm apptainer
+
+      - name: Verify installations
+        run: |
+          echo "=== Versions ==="
+          sinfo --version || echo "Slurm not found"
+          apptainer --version
+
+      - name: Setup fake Slurm environment
+        run: |
+          echo "Creating fake Slurm config..."
+          sudo mkdir -p /etc/slurm
+          sudo bash -c 'cat > /etc/slurm/slurm.conf <<EOF
+          ClusterName=fakecluster
+          ControlMachine=localhost
+          SlurmdPort=7003
+          SlurmUser=runner
+          StateSaveLocation=/tmp/slurm-state
+          SlurmdSpoolDir=/tmp/slurmd
+          SlurmctldPort=7002
+          ProctrackType=proctrack/linuxproc
+          ReturnToService=1
+          SlurmctldTimeout=300
+          SlurmdTimeout=300
+          NodeName=localhost CPUs=2 RealMemory=4000 State=UNKNOWN
+          PartitionName=debug Nodes=localhost Default=YES MaxTime=INFINITE State=UP
+          EOF'
+
+          echo "Starting fake slurmctld..."
+          sudo mkdir -p /tmp/slurm-state /tmp/slurmd
+          sudo slurmctld -D -c &
+          sleep 3
+          echo "Slurm configured."
+
+      - name: Build Apptainer container
+        run: |
+          echo "Bootstraping Apptainer container..."
+          cat << 'EOF' > container.def
+          Bootstrap: docker
+          From: ubuntu:22.04
+          %post
+              apt-get update && apt-get install -y python3
+              echo "Hello from Apptainer container!"
+          %runscript
+              echo "Running container with $(python3 --version)"
+          EOF
+
+          sudo apptainer build mycontainer.sif container.def
+
+      - name: Submit fake Slurm job that uses Apptainer
+        run: |
+          echo '#!/bin/bash' > job.sh
+          echo 'echo "=== SLURM JOB START ==="' >> job.sh
+          echo 'apptainer run mycontainer.sif' >> job.sh
+          echo 'echo "=== SLURM JOB END ==="' >> job.sh
+          chmod +x job.sh
+
+          echo "Submitting job to fake Slurm queue..."
+          sbatch --job-name=test-job --wrap="./job.sh" || bash ./job.sh
+
+      - name: Run jawm
+        run: |
+          jawm-test -p system -j local -t ./test/hpc.txt
+
+      - name: Cleanup
+        if: always()
+        run: |
+          echo "Cleaning up temporary Slurm files..."
+          sudo pkill slurmctld || true
+          rm -rf container.def mycontainer.sif job.sh /tmp/slurm-state /tmp/slurmd
+          echo "✅ Simulation complete."
