@@ -8,4 +8,4 @@ modules/jawm_template
 .submodules
 # do this if you want to upload modules direclty
 # be aware you will loose git version information
-#modules/*/.git
+#submodules/*/.git
