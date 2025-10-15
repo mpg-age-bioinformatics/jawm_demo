@@ -1,8 +1,5 @@
 import jawm
 
-# it can be used in the form
-# load_modules(["modules","jawm_template@<tag/commit_hash>"])
-
 demo_p1=jawm.Process( 
     name="demo_p1",
     script="""#!/bin/bash
@@ -16,6 +13,13 @@ echo "{{extra_args}} {{my_demo_argument}}" 2>&1 | tee {{mk.output}}/demo.txt
     #     "my_demo_argument":"This is just a demo.", 
     #     "mk.output":"<output_folder>", # the prefix "mk." leads to the creation of this folder and volume mapping if you are using containers
     # },
+
+    # here you can describe your variables
+    desc={
+        "extra_args": "use this if you want to add not preset arguments",
+        "my_demo_argument":"Some text that will be printed to the screen.", 
+        "output":"Folder for output", # the prefix "mk." leads to the creation of this folder and volume mapping if you are using containers
+    },
     
     # example arguments for jawn
 
@@ -72,17 +76,22 @@ write( "Demo completed", file = "{{mk.output}}/demo.txt", append = TRUE)
 )
 
 
-
 if __name__ == "__main__":
     import sys
     from jawm.utils import workflow
     from jawm.utils import load_modules
 
     # load modules from local folders
-    load_modules("modules")
+    load_modules("submodules")
 
     # load modules from online git repos
     load_modules("jawm_template")
+
+    # it can be used in the form
+    # load_modules(["modules","jawm_template@<tag/commit_hash>"])
+    
+    # or for latest available tag
+    # load_modules("jawm_template@latest")
 
     workflows, var, args, unknown_args= jawm.utils.parse_arguments(["main","demo","test"],)
 
