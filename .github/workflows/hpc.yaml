@@ -101,6 +101,24 @@ jobs:
         run: |
           jawm-test -p system -j local -t ./test/hpc.txt
 
+      - name: Succeeded
+        if: success()
+        run: echo "✅ test.py succeeded!" 
+
+      - name: Slack Failure Notification
+        if: failure() # skip during local actions testing
+        run: |
+          echo "❌ Job failed!" && \
+          generate_post_data()
+          {
+            cat << EOF
+          {
+            "text": "${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8) test FAILED"
+          }
+          EOF
+          } 
+          curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data)" ${{ secrets.SLACK_JAWM_WEBHOOK }}
+
       - name: Cleanup
         if: always()
         run: |
