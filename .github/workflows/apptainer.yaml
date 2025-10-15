@@ -81,7 +81,7 @@ jobs:
 
           sudo apptainer build mycontainer.sif container.def
           
-      - name: Submit fake Slurm job that uses Apptainer
+      - name: Submit job that uses Apptainer
         run: |
           echo '#!/bin/bash' > job.sh
           echo 'echo "=== SLURM JOB START ==="' >> job.sh
