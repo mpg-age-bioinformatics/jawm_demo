@@ -6,8 +6,8 @@ on:
     - cron: "0 0 * * *"  # nightly run
 
 jobs:
-  hpc-sim:
-    name: Simulated HPC Job
+  apptainer:
+    name: Apptainer
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
