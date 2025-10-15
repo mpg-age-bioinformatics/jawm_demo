@@ -37,15 +37,15 @@ jobs:
       - name: Install Slurm and system deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y slurm-wlm wget
+          sudo apt-get install -y slurm-wlm wget curl jq
 
       - name: Install Apptainer from official release
         run: |
-          # Download the latest .deb package dynamically
-          LATEST=$(curl -s https://api.github.com/repos/apptainer/apptainer/releases/latest \
-            | grep browser_download_url | grep 'amd64.deb' | cut -d '"' -f 4 | head -n 1)
-          echo "Downloading $LATEST"
-          wget -q $LATEST -O apptainer.deb
+          echo "Fetching latest Apptainer release .deb..."
+          LATEST_URL=$(curl -s https://api.github.com/repos/apptainer/apptainer/releases/latest \
+            | jq -r '.assets[] | select(.name | test("^apptainer_.*amd64\\.deb$")) | .browser_download_url')
+          echo "Downloading $LATEST_URL"
+          wget -q "$LATEST_URL" -O apptainer.deb
           sudo apt-get install -y ./apptainer.deb
           apptainer --version
 
@@ -123,10 +123,10 @@ jobs:
           {
             cat << EOF
           {
-            "text": "${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8) test FAILED"
+            "text": "❌ *${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8)* test FAILED\n<https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Run>"
           }
           EOF
-          } 
+          }
           curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data)" ${{ secrets.SLACK_JAWM_WEBHOOK }}
 
       - name: Cleanup

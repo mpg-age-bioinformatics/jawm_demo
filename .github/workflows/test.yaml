@@ -64,11 +64,12 @@ jobs:
           {
             cat << EOF
           {
-            "text": "${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8) test FAILED"
+            "text": "❌ *${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8)* test FAILED\n<https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Run>"
           }
           EOF
-          } 
+          }
           curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data)" ${{ secrets.SLACK_JAWM_WEBHOOK }}
+
 
 # from the jawm_fastqc folder
 # act -s JAWM_BIOINFORMATICS_KEY="$(cat ~/.ssh/jawm)"

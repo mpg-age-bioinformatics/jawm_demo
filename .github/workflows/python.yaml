@@ -57,15 +57,16 @@ jobs:
         run: echo "✅ test.py succeeded on Python ${{ matrix.python-version }}!"
 
       - name: Slack Failure Notification
-        if: failure()
+        if: failure() # skip during local actions testing
         run: |
-          echo "❌ Job failed on Python ${{ matrix.python-version }}!" && \
+          echo "❌ Job failed!" && \
           generate_post_data()
           {
             cat << EOF
           {
-            "text": "${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8) test FAILED (Python ${{ matrix.python-version }})"
+            "text": "❌ *${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8)* test FAILED\n<https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Run>"
           }
           EOF
           }
           curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data)" ${{ secrets.SLACK_JAWM_WEBHOOK }}
+
