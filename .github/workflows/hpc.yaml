@@ -34,10 +34,26 @@ jobs:
           python -m pip install --upgrade pip
           pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git
 
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y slurm-wlm apptainer
+          sudo apt-get install -y curl gnupg lsb-release slurm-wlm
+
+      - name: Install Apptainer (official repository)
+        run: |
+          # Add Apptainer official repository
+          export VERSION=$(lsb_release -s -r)
+          echo "deb [signed-by=/usr/share/keyrings/apptainer-keyring.gpg] \
+          https://ppa.launchpadcontent.net/apptainer/ppa/ubuntu $(
+            lsb_release -cs
+          ) main" | sudo tee /etc/apt/sources.list.d/apptainer.list
+
+          # Import key and install
+          sudo mkdir -p /usr/share/keyrings
+          curl -fsSL https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xB305B3B6D6322AB3 | gpg --dearmor | sudo tee /usr/share/keyrings/apptainer-keyring.gpg > /dev/null
+
+          sudo apt-get update
+          sudo apt-get install -y apptainer
 
       - name: Verify installations
         run: |
