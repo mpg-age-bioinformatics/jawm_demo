@@ -1,0 +1,71 @@
+name: Python Versions Testing
+
+on:
+  schedule:
+    # Run every night at midnight UTC
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Run tests on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Check Docker
+        run: |
+          if ! command -v docker &> /dev/null
+          then
+            echo "Docker could not be found!"
+            exit 1
+          fi
+          docker --version
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.JAWM_BIOINFORMATICS_KEY }}
+
+      - name: Add GitHub to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Install jawm
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          python -m pip install --upgrade pip
+          pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git
+
+      - name: Run jawm
+        run: |
+          jawm-test -p system -j local
+
+      - name: Succeeded
+        if: success()
+        run: echo "✅ test.py succeeded on Python ${{ matrix.python-version }}!"
+
+      - name: Slack Failure Notification
+        if: failure()
+        run: |
+          echo "❌ Job failed on Python ${{ matrix.python-version }}!" && \
+          generate_post_data()
+          {
+            cat << EOF
+          {
+            "text": "${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8) test FAILED (Python ${{ matrix.python-version }})"
+          }
+          EOF
+          }
+          curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data)" ${{ secrets.SLACK_JAWM_WEBHOOK }}
