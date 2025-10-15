@@ -1,8 +1,6 @@
 - scope: process
   name: "demo_p1"
   container: "ubuntu:24.04"
-  manager: "slurm"
-  manager_slurm: { "-p":"cluster,dedicated", "--mem":"20GB", "-t":"1:00:00", "-c":"8" }
   environment: "apptainer"
   var:
     extra_args: ""
@@ -11,8 +9,6 @@
 - scope: process
   name: "demo_p2"
   container: "python:3.13-slim"
-  manager: "slurm"
-  manager_slurm: { "-p":"cluster,dedicated", "--mem":"20GB", "-t":"1:00:00", "-c":"8" }
   environment: "apptainer"
   var:
     map.file: "./test/data.txt"
@@ -20,8 +16,6 @@
 - scope: process
   name: "demo_p3"
   container: "r-base:4.5.1"
-  manager: "slurm"
-  manager_slurm: { "-p":"cluster,dedicated", "--mem":"20GB", "-t":"1:00:00", "-c":"8" }
   environment: "apptainer"
 
 - scope: global

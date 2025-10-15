@@ -1,3 +1,0 @@
-#jawm_file.py;workflow;parameters.file1.yaml,parameters.file2.yaml;"Test name";test_hash
-demo.py;test;./test/yaml/hpc.yaml;"Main workflow test";d7b200c53074ad1a5b13f2b3393f62e9152dae6323fc3bf85d5a6bef727e426d
-# blank last line required

@@ -1,4 +1,4 @@
-name: HPC
+name: apptainer
 
 on:
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
       - name: Install Slurm and dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y slurm-wlm wget curl jq
+          sudo apt-get install -y wget curl jq
 
       - name: Install Apptainer from official release (robust)
         run: |
@@ -64,34 +64,7 @@ jobs:
       - name: Verify installations
         run: |
           echo "=== Versions ==="
-          sinfo --version || echo "Slurm not found"
           apptainer --version
-
-      - name: Setup fake Slurm environment
-        run: |
-          echo "Creating fake Slurm config..."
-          sudo mkdir -p /etc/slurm
-          sudo bash -c 'cat > /etc/slurm/slurm.conf <<EOF
-          ClusterName=fakecluster
-          ControlMachine=localhost
-          SlurmdPort=7003
-          SlurmUser=runner
-          StateSaveLocation=/tmp/slurm-state
-          SlurmdSpoolDir=/tmp/slurmd
-          SlurmctldPort=7002
-          ProctrackType=proctrack/linuxproc
-          ReturnToService=1
-          SlurmctldTimeout=300
-          SlurmdTimeout=300
-          NodeName=localhost CPUs=2 RealMemory=4000 State=UNKNOWN
-          PartitionName=debug Nodes=localhost Default=YES MaxTime=INFINITE State=UP
-          EOF'
-
-          echo "Starting fake slurmctld..."
-          sudo mkdir -p /tmp/slurm-state /tmp/slurmd
-          sudo slurmctld -D -c &
-          sleep 3
-          echo "Slurm configured."
 
       - name: Build Apptainer container
         run: |
@@ -107,33 +80,6 @@ jobs:
           EOF
 
           sudo apptainer build mycontainer.sif container.def
-
-      - name: Start local Slurm daemons
-        run: |
-          sudo mkdir -p /var/run/slurm /var/spool/slurmd /var/spool/slurmctld
-          sudo touch /var/run/slurm/slurmctld.pid
-          sudo slurmd -D -c &
-          sudo slurmctld -D -c &
-          sleep 5
-          scontrol ping || echo "⚠️ Slurm still unreachable"
-
-      - name: Mock Slurm commands for CI
-        run: |
-          mkdir -p ~/fake_slurm
-          cat > ~/fake_slurm/sbatch <<'EOF'
-          #!/bin/bash
-          echo "[MOCK] sbatch called -> executing job immediately"
-          # extract wrapped command if provided
-          while [[ $# -gt 0 ]]; do
-            case $1 in
-              --wrap=*) cmd="${1#*=}" ;;
-            esac
-            shift
-          done
-          bash -c "${cmd:-$@}"
-          EOF
-          chmod +x ~/fake_slurm/sbatch
-          echo "$HOME/fake_slurm" >> $GITHUB_PATH
           
       - name: Submit fake Slurm job that uses Apptainer
         run: |
@@ -142,13 +88,11 @@ jobs:
           echo 'apptainer run mycontainer.sif' >> job.sh
           echo 'echo "=== SLURM JOB END ==="' >> job.sh
           chmod +x job.sh
-
-          echo "Submitting job to fake Slurm queue..."
-          sbatch --job-name=test-job --wrap="./job.sh" 
+          ./job.sh
 
       - name: Run jawm
         run: |
-          jawm-test -p system -j local -t ./test/hpc.txt
+          jawm-test -p system -j local -t ./test/apptainer.txt
 
       - name: Succeeded
         if: success()
