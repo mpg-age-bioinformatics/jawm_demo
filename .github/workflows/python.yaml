@@ -54,7 +54,7 @@ jobs:
 
       - name: Succeeded
         if: success()
-        run: echo "✅ test.py succeeded on Python ${{ matrix.python-version }}!"
+        run: echo "✅ Test succeeded on Python ${{ matrix.python-version }}!"
 
       - name: Slack Failure Notification
         if: failure() # skip during local actions testing
