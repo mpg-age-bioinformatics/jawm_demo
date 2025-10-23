@@ -1,4 +1,4 @@
-name: Test module
+name: Test Module
 
 # in futurue use this to test against latest jawm release and
 # create a cd.ci.yaml that tests against the latest jawm commit
