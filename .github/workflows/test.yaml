@@ -12,6 +12,4 @@ on:
 jobs:
   build:
     uses: mpg-age-bioinformatics/jawm_demo/.github/workflows/reference.test.yaml@main
-    secrets:
-      JAWM_BIOINFORMATICS_KEY: ${{ secrets.JAWM_BIOINFORMATICS_KEY }}
-      SLACK_JAWM_WEBHOOK: ${{ secrets.SLACK_JAWM_WEBHOOK }}
+    secrets: inherit
