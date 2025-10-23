@@ -96,7 +96,7 @@ jobs:
 
       - name: Succeeded
         if: success()
-        run: echo "✅ test.py succeeded!" 
+        run: echo "✅ Test succeeded!" 
 
       - name: Slack Failure Notification
         if: failure() # skip during local actions testing
