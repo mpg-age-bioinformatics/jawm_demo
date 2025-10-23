@@ -113,11 +113,11 @@ if __name__ == "__main__":
         print(demo_p1.get_output())
         print(demo_p2.get_output())
 
-        demo_module.demo_module_p1.execute()
+        demo_submodule.demo_submodule_p1.execute()
         template._template_p2.execute()
 
         jawm.Process.wait()
-        print(demo_module.demo_module_p1.get_output())
+        print(demo_submodule.demo_submodule_p1.get_output())
         print(template._template_p2.get_output())
 
     if workflow( "test", workflows ) :
