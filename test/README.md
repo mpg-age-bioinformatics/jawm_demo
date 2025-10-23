@@ -20,7 +20,7 @@ These are defined in `yaml` eg. `./yaml/test.yaml` file under the `- scope: hash
 ```
 Initally, on your first test, you won't have an hash, leave it blanck and let jwam fill the value for you.
 ```
-jawm-dev test
+jawm-test
 ``` 
 Additionaly, these hashes are stored under `./logs/jwam_hashes/<module_name>_user_defined.history` and 
 `./logs/jwam_hashes/<module_name>.hash` for the latest hash.
