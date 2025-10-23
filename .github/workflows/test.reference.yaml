@@ -1,0 +1,54 @@
+name: Reference Test Module
+
+# in futurue use this to test against latest jawm release and
+# create a cd.ci.yaml that tests against the latest jawm commit
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ">=3.10"
+
+      # 3️⃣ Ensure Docker is available
+      - name: Check Docker
+        run: |
+          if ! command -v docker &> /dev/null
+          then
+            echo "Docker could not be found!"
+            exit 1
+          fi
+          docker --version
+
+      - name: Add GitHub to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Install jawm
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          python -m pip install --upgrade pip
+          pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git
+
+      - name: Run jawm
+        run: |
+          jawm-test -p system -j local 
+
+      - name: Succeeded
+        if: success()
+        run: echo "✅ Test succeeded!" 
+
+      - name: Slack Failure Notification
+        if: failure()
+        run: |
+          echo "❌ Job failed!"

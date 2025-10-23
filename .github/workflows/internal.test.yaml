@@ -14,4 +14,5 @@ on:
 
 jobs:
   build:
-    uses: mpg-age-bioinformatics/jawm_demo/.github/workflows/test.reference.yaml@main
+    uses: mpg-age-bioinformatics/jawm_demo/.github/workflows/internal.test.reference.yaml@main
+    secrets: inherit
