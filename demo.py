@@ -64,7 +64,7 @@ with open("{{map.file}}", "r") as src, open("{{mk.output}}/demo.txt", "a") as ds
 demo_p3=jawm.Process( 
     name="demo_p3",
     script="""#!/usr/bin/env Rscript
-write( "Demo completed", file = "{{mk.output}}/demo.txt", append = TRUE)
+write( "\nDemo completed", file = "{{mk.output}}/demo.txt", append = TRUE)
 """,
 
     # arguments for the script above :
