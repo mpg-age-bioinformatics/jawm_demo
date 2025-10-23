@@ -28,11 +28,21 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-      - name: Install jawm
+      - name: Install jawm and capture commit hash
         run: |
           echo "$HOME/.local/bin" >> $GITHUB_PATH
           python -m pip install --upgrade pip
-          pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git
+
+          # Clone the repo manually
+          git clone git@github.com:mpg-age-bioinformatics/jawm.git
+          cd jawm
+
+          # Capture the commit hash
+          JAWM_COMMIT_HASH=$(git rev-parse HEAD)
+          echo "JAWM_COMMIT_HASH=$JAWM_COMMIT_HASH" >> $GITHUB_ENV
+
+          # Install from local clone
+          pip install .
 
       - name: Install dependencies
         run: |
@@ -96,7 +106,7 @@ jobs:
 
       - name: Succeeded
         if: success()
-        run: echo "✅ Test succeeded!" 
+        run: echo "✅ Test succeeded with ${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8) & jawm@$(echo $JAWM_COMMIT_HASH | cut -c 1-8)" 
 
       - name: Slack Failure Notification
         if: failure() # skip during local actions testing
@@ -106,7 +116,7 @@ jobs:
           {
             cat << EOF
           {
-            "text": "❌ *${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8)* test FAILED\n<https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Run>"
+            "text": "❌ *${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8) & jawm@$(echo $JAWM_COMMIT_HASH | cut -c 1-8)* test FAILED\n<https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Run>"
           }
           EOF
           }

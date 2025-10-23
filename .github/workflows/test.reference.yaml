@@ -34,21 +34,31 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-      # - name: Install jawm
-      #   run: |
-      #     echo "$HOME/.local/bin" >> $GITHUB_PATH
-      #     python -m pip install --upgrade pip
-      #     pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git
+      - name: Install jawm and capture commit hash
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          python -m pip install --upgrade pip
 
-      # - name: Run jawm
-      #   run: |
-      #     jawm-test -p system -j local 
+          # Clone the repo manually
+          git clone git@github.com:mpg-age-bioinformatics/jawm.git
+          cd jawm
+
+          # Capture the commit hash
+          JAWM_COMMIT_HASH=$(git rev-parse HEAD)
+          echo "JAWM_COMMIT_HASH=$JAWM_COMMIT_HASH" >> $GITHUB_ENV
+
+          # Install from local clone
+          pip install .
+
+      - name: Run jawm
+        run: |
+          jawm-test -p system -j local 
 
       - name: Succeeded
         if: success()
-        run: echo "✅ Test succeeded!" 
+        run: echo "✅ Test succeeded with ${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8) & jawm@$(echo $JAWM_COMMIT_HASH | cut -c 1-8)" 
 
       - name: Slack Failure Notification
         if: failure()
         run: |
-          echo "❌ Job failed!"
+          echo "❌ Job failed with ${GITHUB_REPOSITORY##*/}@$(echo $GITHUB_SHA | cut -c 1-8) & jawm@$(echo $JAWM_COMMIT_HASH | cut -c 1-8)"
