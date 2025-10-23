@@ -29,6 +29,11 @@ jobs:
           fi
           docker --version
 
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.JAWM_BIOINFORMATICS_KEY }}
+
       - name: Add GitHub to known hosts
         run: |
           mkdir -p ~/.ssh
