@@ -11,4 +11,4 @@ on:
 
 jobs:
   build:
-    uses: mpg-age-bioinformatics/jawm_demo/.github/workflows/referenc.test.yaml@main
+    uses: mpg-age-bioinformatics/jawm_demo/.github/workflows/reference.test.yaml@main
