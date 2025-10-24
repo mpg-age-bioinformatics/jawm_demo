@@ -1,4 +1,4 @@
-name: Internal Test Module
+name: Test Module
 
 # in futurue use this to test against latest jawm release and
 # create a cd.ci.yaml that tests against the latest jawm commit
@@ -14,5 +14,5 @@ on:
 
 jobs:
   build:
-    uses: mpg-age-bioinformatics/jawm_demo/.github/workflows/internal.test.reference.yaml@main
+    uses: mpg-age-bioinformatics/jawm/.github/workflows/modules.yaml@main
     secrets: inherit
