@@ -1,8 +1,5 @@
 name: Test Module
 
-# in futurue use this to test against latest jawm release and
-# create a cd.ci.yaml that tests against the latest jawm commit
-
 on:
   push:
     branches: ["main"]
@@ -14,5 +11,5 @@ on:
 
 jobs:
   build:
-    uses: mpg-age-bioinformatics/jawm/.github/workflows/modules.yaml@main
+    uses: mpg-age-bioinformatics/jawm/.github/workflows/modules.webhook.yaml@main
     secrets: inherit
