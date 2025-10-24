@@ -9,7 +9,6 @@ on:
   push:
     branches: ["main"]
 
-
 jobs:
   build:
     uses: mpg-age-bioinformatics/jawm/.github/workflows/modules.webhook.yaml@main
