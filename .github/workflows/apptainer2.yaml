@@ -6,6 +6,9 @@ on:
     - cron: "0 0 * * *"  # nightly run
   pull_request:
     branches: ["main"]
+  push:
+    branches: ["main"]
+
 
 jobs:
   build:
