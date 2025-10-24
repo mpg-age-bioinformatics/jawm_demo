@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   # push:
   #   branches: ["main"]
-  pull_request:
-    branches: ["main"]
+  # pull_request:
+  #   branches: ["main"]
   schedule:
     # Run every night at midnight UTC
     - cron: "0 0 * * *"
