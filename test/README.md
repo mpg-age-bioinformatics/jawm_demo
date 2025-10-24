@@ -34,3 +34,16 @@ The file `data.txt` lists all the files required for your tests in the form:
 <md5sums>  <file_name>  <url_for_file_download> 
 ```
 These will be downloaded when running `jawm-test`.
+
+You can also trigger a workflow test from using GitHub's client eg.:
+```
+gh workflow run "Test Module"
+```
+then check the run status with
+```
+gh run list --workflow="test.yaml"
+```
+and watch your remote test with
+```
+gh run watch <run-id>
+```
