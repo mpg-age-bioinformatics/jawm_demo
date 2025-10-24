@@ -1,4 +1,4 @@
-name: apptainer
+name: Apptainer
 
 on:
   workflow_dispatch:
