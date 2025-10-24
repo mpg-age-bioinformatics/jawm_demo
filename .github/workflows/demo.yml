@@ -1,0 +1,4 @@
+name: Demo
+
+on:
+  workflow_dispatch:
