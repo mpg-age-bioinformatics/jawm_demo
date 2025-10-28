@@ -4,7 +4,7 @@
   environment: "apptainer"
   var:
     extra_args: ""
-    my_demo_argument: "This is just a demo."
+    my_demo_argument: "This is just an example."
 
 - scope: process
   name: "demo_p2"
