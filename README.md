@@ -12,10 +12,11 @@ For more information on jawm please visit jawm's repo on [GitHub.com](https://gi
 
 Example usage:
 ```
+# clone this module
 git clone git@github.com:mpg-age-bioinformatics/jawm_demo.git
-cd jawm_demo
 
 # download test data
+cd jawm_demo
 jawm-test -r download
 
 # docker
