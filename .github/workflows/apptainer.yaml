@@ -3,8 +3,10 @@ name: Apptainer
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"  # nightly run
-
+    - cron: "30 4 * * *"
+    # GitHub cron is UTC. 06:00 Berlin = 04:00 UTC in summer, 05:00 UTC in winter.
+    # - cron: "0 4 * * *"
+    # - cron: "0 5 * * *"
 jobs:
   apptainer:
     name: Apptainer

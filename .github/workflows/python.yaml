@@ -2,8 +2,8 @@ name: Python Versions Testing
 
 on:
   schedule:
-    # Run every night at midnight UTC
-    - cron: "0 0 * * *"
+    # GitHub cron is UTC. 06:00 Berlin = 04:00 UTC in summer, 05:00 UTC in winter.
+    - cron: "30 4 * * *"
   workflow_dispatch:
 
 jobs:
