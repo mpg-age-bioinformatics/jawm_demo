@@ -10,8 +10,10 @@ pip install git+ssh://git@github.com/mpg-age-bioinformatics/jawm.git
 ```
 For more information on jawm please visit jawm's repo on [GitHub.com](https://github.com/mpg-age-bioinformatics/jawm/tree/main).
 
-Example usage:
+Example usage (after cloning this module):
 ```
+cd jawm_demo
+
 # download test data
 jawm-test -r download
 

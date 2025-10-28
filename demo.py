@@ -3,7 +3,7 @@ import jawm
 demo_p1=jawm.Process( 
     name="demo_p1",
     script="""#!/bin/bash
-echo "{{extra_args}} {{my_demo_argument}}" 2>&1 | tee {{mk.output}}/demo.txt
+echo "{{extra_args}} {{my_demo_argument}}" 2>&1 | tee {{output}}/demo.txt
 """,
 
     # arguments for the script above :
