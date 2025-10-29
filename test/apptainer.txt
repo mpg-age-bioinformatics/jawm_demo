@@ -1,2 +1,2 @@
 #jawm_file.py;workflow;parameters.file1.yaml,parameters.file2.yaml;"Test name";test_hash
-advanced.py;test;./test/yaml/apptainer.yaml;"Main workflow test";56736552bb6244e13673071b8f01ed5a1a05a4245f8d8ea96c3b3d74504663a2
+advanced.py;test;./test/yaml/apptainer.yaml;"Main workflow test";26bab858dd6b3e14cc1260dec4baa11054f66460af36848bdf1c2d50c0a9d0e7
