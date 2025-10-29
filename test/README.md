@@ -21,6 +21,10 @@ Initally, on your first test, you won't have an hash, leave it blanck and let jw
 ```
 jawm-test
 ``` 
+If you need to overwrite the hash on teh `tests.txt` file you can:
+```
+jawm-test -o
+```
 Additionaly, these hashes are stored under `./logs/jwam_hashes/<module_name>_user_defined.history` and 
 `./logs/jwam_hashes/<module_name>.hash` for the latest hash.
 
