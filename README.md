@@ -2,7 +2,7 @@
 
 This is a jawm demo module.
 
-Checkout `demo.py` and `notebook.ipynb` for examples on how to develop data analysis workflows with jawm.
+Checkout `simple.py`. `demo.py` and `notebook.ipynb` for examples on how to develop data analysis workflows with jawm.
 
 Installing jawm:
 ```
@@ -15,15 +15,21 @@ Example usage:
 # clone this module
 git clone git@github.com:mpg-age-bioinformatics/jawm_demo.git
 
-# download test data
+# simple
 cd jawm_demo
+python simple.py
+
+# simple with jawm
+jawm simple.py
+
+# download test data
 jawm-test -r download
 
 # docker
-jawm demo.py demo -p ./yaml/docker.yaml
+jawm advanced.py demo -p ./yaml/docker.yaml
 
 # slurm & apptainer with multiple yaml files
-jawm demo.py demo -p ./yaml/vars.yaml ./yaml/hpc.yaml
+jawm advanced.py demo -p ./yaml/vars.yaml ./yaml/hpc.yaml
 ```
 
 Testing this module on your system's python, jawm, and docker installations:
