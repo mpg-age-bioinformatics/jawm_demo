@@ -2,7 +2,7 @@
 
 This is a jawm demo module.
 
-Checkout `simple.py`. `demo.py` and `notebook.ipynb` for examples on how to develop data analysis workflows with jawm.
+Checkout `simple.py`. `advanced.py` and `notebook.ipynb` for examples on how to develop data analysis workflows with jawm.
 
 Installing jawm:
 ```
