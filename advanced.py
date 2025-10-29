@@ -116,7 +116,7 @@ if __name__ == "__main__":
         demo_submodule.demo_submodule_p1.execute()
         template._template_p2.execute()
 
-        jawm.Process.wait([ demo_submodule.hash, template.hash  ])
+        jawm.Process.wait([ demo_submodule.demo_submodule_p1.hash, template._template_p2.hash  ])
         print(demo_submodule.demo_submodule_p1.get_output())
         print(template._template_p2.get_output())
 
