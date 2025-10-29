@@ -48,7 +48,7 @@ echo "{{extra_args}} {{my_demo_argument}}" 2>&1 | tee {{output}}/demo.txt
 demo_p2=jawm.Process( 
     name="demo_p2",
     script="""#!/usr/bin/env python3
-with open("{{map.file}}", "r") as src, open("{{mk.output}}/demo.txt", "a") as dst:
+with open("{{map.file}}", "r") as src, open("{{output}}/demo.txt", "a") as dst:
     dst.write(src.read())
 """,
 
@@ -64,7 +64,7 @@ with open("{{map.file}}", "r") as src, open("{{mk.output}}/demo.txt", "a") as ds
 demo_p3=jawm.Process( 
     name="demo_p3",
     script="""#!/usr/bin/env Rscript
-write( "\nDemo completed", file = "{{mk.output}}/demo.txt", append = TRUE)
+write( "\nDemo completed", file = "{{output}}/demo.txt", append = TRUE)
 """,
 
     # arguments for the script above :
