@@ -107,7 +107,7 @@ if __name__ == "__main__":
         demo_p2.execute()
 
         # wait for all above processes to complete
-        jawm.Process.wait()
+        jawm.Process.wait(demo_p2.hash)
 
         # print the output
         print(demo_p1.get_output())
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         demo_submodule.demo_submodule_p1.execute()
         template._template_p2.execute()
 
-        jawm.Process.wait()
+        jawm.Process.wait([ demo_submodule.hash, template.hash  ])
         print(demo_submodule.demo_submodule_p1.get_output())
         print(template._template_p2.get_output())
 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
         # for the test workflow we also do something more (just for demo)
         demo_p3.execute()
-        jawm.Process.wait()
+        jawm.Process.wait( demo_p3.hash)
         print("Test completed.")
 
 
