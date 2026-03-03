@@ -2,24 +2,37 @@
 - scope: process
   name: "demo_p1"
   manager: "slurm"
-  manager_slurm: { "-p":"cluster,dedicated", "--mem":"20GB", "-t":"1:00:00", "-c":"8" }
+  manager_slurm: { "-p":"cluster,dedicated"}
   environment: "apptainer"
-  container: "docker://ubuntu:24.04"
+  environment_apptainer: { "-B":"/nexus:/nexus" }
+  automated_mount: False
+  # before_script: "module load apptainer"
+  # manager_slurm: {"--ntasks-per-core":"2", "-p":"general,small" }
 
 - scope: process
   name: "demo_p2"
   manager: "slurm"
-  manager_slurm: { "-p":"cluster,dedicated", "--mem":"20GB", "-t":"1:00:00", "-c":"8" }
+  manager_slurm: { "-p":"cluster,dedicated" }
   environment: "apptainer"
-  container: "docker://python:3.13-slim"
+  environment_apptainer: { "-B":"/nexus:/nexus" }
+  automated_mount: False
+  # before_script: "module load apptainer"
+  # manager_slurm: {"--ntasks-per-core":"2", "-p":"general,small" }
 
 - scope: process
   name: "demo_p3"
   manager: "slurm"
-  manager_slurm: { "-p":"cluster,dedicated", "--mem":"20GB", "-t":"1:00:00", "-c":"8" }
+  manager_slurm: { "-p":"cluster,dedicated"}
   environment: "apptainer"
-  container: "docker://r-base:4.5.1"
+  environment_apptainer: { "-B":"/nexus:/nexus" }
+  automated_mount: False
+  # before_script: "module load apptainer"
+  # manager_slurm: { "--ntasks-per-core":"2", "-p":"general,small" }
 
+- includes: 
+    - nexus.apptainer.yaml
+    
 # - scope: global
 #   manager: "slurm"
 #   environment: "apptainer"
+

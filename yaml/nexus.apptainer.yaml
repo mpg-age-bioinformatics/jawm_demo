@@ -1,0 +1,11 @@
+- scope: process
+  name: "demo_p1"
+  container: /nexus/posix0/MAGE-flaski/service/images/jawm/ubuntu-24.04.sif
+
+- scope: process
+  name: "demo_p2"
+  container: /nexus/posix0/MAGE-flaski/service/images/jawm/python-3.13slim.sif
+
+- scope: process
+  name: "demo_p3"
+  container: /nexus/posix0/MAGE-flaski/service/images/jawm/rbase-4.5.1.sif

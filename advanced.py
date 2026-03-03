@@ -24,14 +24,13 @@ echo "{{extra_args}} {{my_demo_argument}}" 2>&1 | tee {{output}}/demo.txt
     # example arguments for jawn
 
     # manager="slurm",
-    # manager_slurm={
-    #     "-p":"cluster,dedicated", 
-    #     "--mem":"20GB", 
-    #     "-t":"1:00:00", 
-    #     "-c":"8" 
-    # },
+    manager_slurm={
+        "--mem":"20GB", 
+        "-t":"1:00:00", 
+        "-c":"8" 
+    },
     
-    # container="docker://mpgagebioinformatics/fastqc:0.11.9",
+    container="ubuntu:24.04",
     # environmnent="apptainer",
     # environment_apptainer={ '-B': [input_file, output_folder] }
     
@@ -51,7 +50,12 @@ demo_p2=jawm.Process(
 with open("{{map.file}}", "r") as src, open("{{output}}/demo.txt", "a") as dst:
     dst.write(src.read())
 """,
-
+    container="python:3.13-slim",
+    manager_slurm={
+        "--mem":"20GB", 
+        "-t":"1:00:00", 
+        "-c":"8" 
+    },
     # arguments for the script above :
     
     # var={
@@ -66,7 +70,12 @@ demo_p3=jawm.Process(
     script="""#!/usr/bin/env Rscript
 write( "\nDemo completed", file = "{{output}}/demo.txt", append = TRUE)
 """,
-
+    container="r-base:4.5.1",
+    manager_slurm={
+        "--mem":"20GB", 
+        "-t":"1:00:00", 
+        "-c":"8" 
+    },
     # arguments for the script above :
     
     # var={
