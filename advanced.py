@@ -34,10 +34,8 @@ echo "{{extra_args}} {{my_demo_argument}}" 2>&1 | tee {{output}}/demo.txt
     # environmnent="apptainer",
     # environment_apptainer={ '-B': [input_file, output_folder] }
     
-    # container="mpgagebioinformatics/fastqc:0.11.9",
     # environmnent="docker",
     # environment_docker={ '-v': [input_file, output_folder] },
-
 
     # param_file="yaml/apptainer.params.yaml" ,
     # param_file=[ "yaml/apptainer.params.yaml" , "yaml/slurm.params.yaml" ],

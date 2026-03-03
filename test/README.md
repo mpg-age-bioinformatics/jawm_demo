@@ -1,5 +1,11 @@
 # jawm tests
 
+Testing this module on your system's python, jawm, and docker installations:
+```
+cd jawm_demo
+jawm-test --python_versions system --jawm_versions local
+```
+
 It is good working practices to prepare data driven tests of your workflows. 
 This will allow you to continuously test your code against the lalest jawm 
 version and at the same time give you a framework to test how changes to your 
